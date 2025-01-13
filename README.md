@@ -6,3 +6,4 @@
 - 12 workspace management using icons
 - add volume status in systray
 - movestack with focus
+- bottom tab bar for floating layout
