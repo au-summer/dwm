@@ -27,6 +27,11 @@ pkg_updates() {
   fi
 }
 
+brightness() {
+  printf "^c$yellow^   "
+  printf "^c$yellow^%.0f\n" $(cat /sys/class/backlight/*/brightness)
+}
+
 battery() {
   get_capacity="$(cat /sys/class/power_supply/BAT1/capacity)"
   printf "^c$blue^ 󰁹  $get_capacity"
@@ -35,11 +40,6 @@ battery() {
 volume() {
     volume_level="$(amixer get Master | awk -F'[][]' 'END{ print $2 }')"
     printf "^c$red^ 󰕾  $volume_level"
-}
-
-brightness() {
-  printf "^c$red^   "
-  printf "^c$red^%.0f\n" $(cat /sys/class/backlight/*/brightness)
 }
 
 mem() {
@@ -64,5 +64,5 @@ while true; do
   [ $interval = 0 ] || [ $(($interval % 3600)) = 0 ] && updates=$(pkg_updates)
   interval=$((interval + 1))
 
-  sleep 1 && xsetroot -name "$updates $(battery) $(volume) $(cpu) $(mem) $(wlan) $(clock)"
+  sleep 1 && xsetroot -name "$updates $(brightness) $(battery) $(volume) $(cpu) $(mem) $(wlan) $(clock)"
 done
